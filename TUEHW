@@ -1,0 +1,93 @@
+CREATE TABLE "customers" (
+  "customer_id" integer PRIMARY KEY,
+  "first_name" varchar,
+  "last_name" varchar,
+  "email" varchar,
+  "rewards_id" serial
+);
+
+CREATE TABLE "tickets" (
+  "ticket_id" integer PRIMARY KEY,
+  "film_id" integer,
+  "amount_total" decimal,
+  "transaction_id" integer,
+  "rewards_id" integer,
+  "staff_id" integer,
+  "date_created" timestamp
+);
+
+CREATE TABLE "movies" (
+  "film_id" integer PRIMARY KEY,
+  "ticket_id" integer,
+  "title" varchar,
+  "release_year" integer,
+  "length" decimal,
+  "rating" varchar
+);
+
+CREATE TABLE "concessions" (
+  "concessions_id" integer PRIMARY KEY,
+  "amount_total" decimal,
+  "beverages" integer,
+  "candy" integer,
+  "popcorn" integer,
+  "transaction_id" integer,
+  "rewards_id" integer,
+  "staff_id" integer
+);
+
+CREATE TABLE "staff" (
+  "staff_id" integer PRIMARY KEY,
+  "first_name" varchar,
+  "last_name" varchar,
+  "email" varchar
+);
+
+ALTER TABLE "tickets" ADD FOREIGN KEY ("staff_id") REFERENCES "staff" ("staff_id");
+
+ALTER TABLE "tickets" ADD FOREIGN KEY ("film_id") REFERENCES "movies" ("film_id");
+
+ALTER TABLE "concessions" ADD FOREIGN KEY ("concessions_id") REFERENCES "staff" ("staff_id");
+
+ALTER TABLE "movies" ADD FOREIGN KEY ("ticket_id") REFERENCES "customers" ("customer_id");
+
+ALTER TABLE "movies" ADD FOREIGN KEY ("ticket_id") REFERENCES "tickets" ("ticket_id");
+
+ALTER TABLE "concessions" ADD FOREIGN KEY ("staff_id") REFERENCES "staff" ("staff_id");
+
+insert into movies (film_id, title, release_year, length, rating)
+values (1, 'Tenet', 2020, 2.59, 'R')
+
+insert into staff (staff_id, first_name, last_name, email)
+values (1, 'Russell', 'Anderson', 'Randerson723@gmail')
+
+insert into tickets (ticket_id, amount_total, transaction_id)
+values (1, 18.50, 1)
+
+insert into concessions (concessions_id, amount_total, beverages, candy, popcorn, transaction_id, staff_id)
+values (1, 27.00, 14.50, 0.00, 12.50, 2, 1)
+
+insert into customers (customer_id, first_name, last_name, email, rewards_id)
+values (1, 'Ben', 'Dover', 'BD2021@hotmail.com', 234)
+
+insert into customers (customer_id, first_name, last_name, email, rewards_id)
+values (2, 'Rock', 'Hardplace', 'RockHard@hotmail.com', 238)
+
+insert into tickets (ticket_id, amount_total, transaction_id, rewards_id)
+values (2, 24.00, 2, 234)
+
+insert into staff (staff_id, first_name, last_name, email)
+values (2, 'Bonk', 'Beerman', 'Beerman22@gmail')
+
+insert into tickets (ticket_id, amount_total, transaction_id, rewards_id)
+values (3, 17.00, 5, 238)
+
+insert into movies (film_id, title, release_year, length, rating)
+values (2, 'Looper', 2016, 2.20, 'R')
+
+
+insert into concessions (concessions_id, amount_total, beverages, candy, popcorn, transaction_id, staff_id, rewards_id)
+values (2, 32.50, 14.50, 7.50, 8.50, 4, 1, 234)
+
+insert into staff (staff_id, first_name, last_name, email)
+values (3, 'Kip', 'Crapper', 'KipCrap@gmail')
